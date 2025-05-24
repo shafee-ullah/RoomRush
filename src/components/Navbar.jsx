@@ -46,19 +46,19 @@ const Navbar = () => {
               <NavLink to="/">Home</NavLink>
             </li>
             <li>
-              <NavLink to="/about">About</NavLink>
+              <NavLink to="/">Add to Find Roommate</NavLink>
             </li>
             <li>
-              <NavLink to="/OurSuccess">Our Success Stories</NavLink>
+              <NavLink to="/">Browse Listing</NavLink>
             </li>
             <li>
-              <NavLink to="/ContactUs">Contact Us</NavLink>
+              <NavLink to="/">My Listings</NavLink>
             </li>
           </ul>
         </div>
         <NavLink to="/" className="flex items-center">
           <img src={LogoImg} className="w-8 h-8" alt="Logo" />
-          <span className="text-xl font-bold ml-2">JobTrack</span>
+          <span className="text-xl font-bold ml-2">RoomRush</span>
         </NavLink>
       </div>
 
@@ -66,17 +66,17 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <NavLink to="/">Home</NavLink>
-          </li>
-          <li>
-            <NavLink to="/about">About</NavLink>
-          </li>
-          <li>
-            <NavLink to="/OurSuccess">Our Success Stories</NavLink>
-          </li>
-          <li>
-            <NavLink to="/ContactUs">Contact Us</NavLink>
-          </li>
+              <NavLink to="/">Home</NavLink>
+            </li>
+            <li>
+              <NavLink to="/">Add to Find Roommate</NavLink>
+            </li>
+            <li>
+              <NavLink to="/">Browse Listing</NavLink>
+            </li>
+            <li>
+              <NavLink to="/">My Listings</NavLink>
+            </li>
         </ul>
       </div>
 
@@ -112,13 +112,13 @@ const Navbar = () => {
           <>
             <NavLink
               to="/auth/login"
-              className="btn rounded-xl bg-green-600 text-white hover:bg-[rgba(11,130,5,1)] border-none"
+              className="btn  bg-green-600 text-white hover:bg-[rgba(11,130,5,1)] border-none"
             >
               Login
             </NavLink>
             <NavLink
               to="/auth/register"
-              className="btn rounded-xl bg-green-600 text-white hover:bg-[rgba(11,130,5,1)] border-none"
+              className="btn bg-green-600 text-white hover:bg-[rgba(11,130,5,1)] border-none"
             >
               Register
             </NavLink>

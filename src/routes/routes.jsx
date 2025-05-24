@@ -20,6 +20,9 @@ const router = createBrowserRouter([
         element:<Home/>, 
         hydrateFallbackElement: <Spinner />,
       },
+      {
+        
+      },
     ],
   },
   {

@@ -1,5 +1,5 @@
 import React from "react";
-import logoImg from "../assets/icons8-job-100.png";
+import logoImg from "../assets/icons8-room-100 (1).png";
 import { NavLink } from "react-router";
 import { FaFacebook } from "react-icons/fa";
 import { FaTwitterSquare } from "react-icons/fa";
@@ -24,14 +24,14 @@ const Footer = () => {
             <NavLink to="/" className="link link-hover">
               Home
             </NavLink>
-            <NavLink to="/about" className="link link-hover">
-              About
+            <NavLink to="/" className="link link-hover">
+            Add to Find Roommate
             </NavLink>
-            <NavLink to="/OurSuccess" className="link link-hover">
-             Our Success Stories
+            <NavLink to="/" className="link link-hover">
+            Browse Listing, 
             </NavLink>
-            <NavLink to="/ContactUs" className="link link-hover">
-              Contact Us
+            <NavLink to="/" className="link link-hover">
+             My Listings
             </NavLink>
           </div>
         </nav>
