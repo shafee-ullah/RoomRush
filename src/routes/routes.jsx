@@ -8,6 +8,11 @@ import ForgotPassword from "../provider/ForgotPassword";
 import Spinner from "../components/Spinner";
 import Errorpages from "../pages/ErrorPages";
 import AuthLayout from "../layouts/AuthLayout";
+import FindRoommate from "../pages/FindRoommate";
+import ListingsBrowse from "../pages/ListingsBrowse";
+import MyListings from "../pages/MyListings";
+import PrivateRoute from "../provider/PrivateRoute";
+
 
 const router = createBrowserRouter([
   {
@@ -21,7 +26,19 @@ const router = createBrowserRouter([
         hydrateFallbackElement: <Spinner />,
       },
       {
-        
+        path:"/find-roommate",
+        element:(<PrivateRoute><FindRoommate /></PrivateRoute>),
+        hydrateFallbackElement: <Spinner />,
+      },
+      {
+         path:"/browse-listings",
+       element: <ListingsBrowse />,
+        hydrateFallbackElement: <Spinner />,
+      },
+      {
+         path:"/my-listings",
+       element:(<PrivateRoute><MyListings /></PrivateRoute>),
+        hydrateFallbackElement: <Spinner />,
       },
     ],
   },
