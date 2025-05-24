@@ -16,13 +16,42 @@ const Register = () => {
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
-  const handleRegister = event => {
+  // Helper function to validate URL and check if it's an image
+  const isValidImageUrl = async (url) => {
+    try {
+      const response = await fetch(url, { method: 'HEAD' });
+      const contentType = response.headers.get('Content-Type');
+      return contentType.startsWith('image/');
+    } catch {
+      return false;
+    }
+  };
+
+  const handleRegister = async (event) => {
     event.preventDefault();
     const form = event.target;
     const name = form.name.value;
     const photoURL = form.photoURL.value;
     const email = form.email.value;
     const password = form.password.value;
+
+    // Reset previous error/success messages
+    setError('');
+    setSuccess('');
+
+    // Validate photo URL if provided
+    if (photoURL) {
+      try {
+        const isValid = await isValidImageUrl(photoURL);
+        if (!isValid) {
+          setError('Please provide a valid image URL');
+          return;
+        }
+      } catch (error) {
+        setError('Invalid image URL');
+        return;
+      }
+    }
 
     // Password validation
     if (!/(?=.*[A-Z])/.test(password)) {
@@ -38,22 +67,56 @@ const Register = () => {
       return;
     }
 
-    createUser(email, password)
-      .then(result => {
-        updateUserProfile(name, photoURL)
-          .then(() => {
-            setSuccess('You are now Registered');
-            setTimeout(() => navigate('/'), 1000);
-          })
-          .catch(error => {
-            setError('Registration Failed');
-            
-          });
-      })
-      .catch(error => {
-        setError('Registration Failed');
-        
+    try {
+      const userCredential = await createUser(email, password);
+      
+      // Always update profile to ensure Firebase auth is updated
+      await updateUserProfile(name, photoURL);
+      
+      // Create user profile in backend
+      await createUserProfile(userCredential.user, name, photoURL);
+      
+      setSuccess('Registration successful!');
+      setTimeout(() => {
+        navigate('/');
+        window.location.reload(); // Reload to ensure profile image is updated
+      }, 1500);
+    } catch (error) {
+      console.error('Registration error:', error);
+      setError(error.message || 'Registration failed');
+    }
+  };
+
+  // Function to create user profile in backend
+  const createUserProfile = async (user, name, photoURL) => {
+    try {
+      const token = await user.getIdToken();
+      const response = await fetch('http://localhost:5001/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          email: user.email,
+          displayName: name,
+          photoURL: photoURL,
+          preferences: {
+            notifications: true,
+            emailUpdates: true
+          }
+        })
       });
+
+      if (!response.ok) {
+        throw new Error('Failed to create user profile');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error creating user profile:', error);
+      throw error;
+    }
   };
 
   const handleGoogleSignIn = () => {
@@ -148,15 +211,19 @@ const Register = () => {
 
               <div>
                 <label htmlFor="photoURL" className="block text-sm font-medium text-gray-900">
-                  Photo URL
+                  Profile Photo URL
                 </label>
                 <div className="mt-2">
                   <input
                     id="photoURL"
                     name="photoURL"
-                    type="text"
+                    type="url"
+                    placeholder="https://example.com/your-photo.jpg"
                     className="block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
                   />
+                  <p className="mt-1 text-sm text-gray-500">
+                    Enter a valid image URL for your profile photo
+                  </p>
                 </div>
               </div>
 

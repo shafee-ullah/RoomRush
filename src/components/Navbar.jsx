@@ -17,6 +17,9 @@ const Navbar = () => {
     const fetchUserProfile = async () => {
       if (user) {
         try {
+          console.log('Fetching user profile for:', user.email);
+          console.log('Current Firebase photo URL:', user.photoURL);
+          
           const token = await user.getIdToken();
           const response = await fetch(`http://localhost:5001/users/${user.email}`, {
             headers: {
@@ -25,7 +28,10 @@ const Navbar = () => {
           });
           if (response.ok) {
             const data = await response.json();
+            console.log('Backend profile data:', data);
             setUserProfile(data);
+          } else {
+            console.error('Backend response not OK:', response.status);
           }
         } catch (error) {
           console.error('Error fetching user profile:', error);
@@ -35,6 +41,27 @@ const Navbar = () => {
 
     fetchUserProfile();
   }, [user]);
+
+  // Function to get the most up-to-date photo URL
+  const getProfilePhotoURL = () => {
+    console.log('Getting profile photo URL');
+    console.log('Backend profile photo:', userProfile?.photoURL);
+    console.log('Firebase photo:', user?.photoURL);
+    
+    // First try backend profile photo
+    if (userProfile?.photoURL) {
+      console.log('Using backend photo URL:', userProfile.photoURL);
+      return userProfile.photoURL;
+    }
+    // Then try Firebase auth photo
+    if (user?.photoURL) {
+      console.log('Using Firebase photo URL:', user.photoURL);
+      return user.photoURL;
+    }
+    // Finally return placeholder
+    console.log('Using placeholder image');
+    return 'https://via.placeholder.com/32x32?text=Profile';
+  };
 
   const handleLogout = async () => {
     try {
@@ -133,22 +160,27 @@ const Navbar = () => {
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none"
                 >
-                  {user.photoURL ? (
+                  <div className="relative w-8 h-8">
                     <img
-                      src={user.photoURL}
+                      key={getProfilePhotoURL()}
+                      src={getProfilePhotoURL()}
                       alt="Profile"
-                      className="h-8 w-8 rounded-full"
+                      className="h-8 w-8 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
+                      onError={(e) => {
+                        console.error('Image failed to load:', e.target.src);
+                        e.target.onerror = null; // Prevent infinite loop
+                        e.target.src = 'https://via.placeholder.com/32x32?text=Profile';
+                      }}
+                      onLoad={() => console.log('Image loaded successfully')}
                     />
-                  ) : (
-                    <FaUserCircle className="h-8 w-8 text-gray-400" />
-                  )}
-                  <span className="text-sm font-medium">
+                  </div>
+                  <span className="text-sm font-medium hidden md:block">
                     {userProfile?.displayName || user.displayName || user.email.split('@')[0]}
                   </span>
                 </button>
 
                 {isProfileOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50">
+                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 border border-gray-200 dark:border-gray-700">
                     <Link
                       to="/profile"
                       className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"

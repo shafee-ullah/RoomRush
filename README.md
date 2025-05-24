@@ -1,12 +1,79 @@
-# React + Vite
+# 🏠 RoomRush
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+RoomRush is a modern web application designed to help users find roommates and shared living spaces. Built with React, Firebase, and MongoDB, it provides a seamless experience for both property listers and seekers.
 
-Currently, two official plugins are available:
+## ✨ Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **🔐 Secure Authentication System**
+  - Firebase Authentication integration
+  - Google Sign-in support
+  - Protected routes and secure API endpoints
+  - Profile management with photo upload capability
 
-## Expanding the ESLint configuration
+- **📝 Advanced Listing Management**
+  - Create and manage room listings
+  - Rich text description support
+  - Upload multiple photos
+  - Set preferences and requirements
+  - Filter listings by various criteria
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **👥 Smart Roommate Matching**
+  - Detailed user profiles with preferences
+  - Lifestyle compatibility indicators
+  - Direct messaging between users
+  - Save favorite listings
+  - View matched roommate suggestions
+
+- **💫 Modern User Interface**
+  - Responsive design for all devices
+  - Dark/Light theme support
+  - Real-time updates
+  - Intuitive navigation
+  - Toast notifications for user feedback
+
+- **🛡️ Robust Backend**
+  - MongoDB database integration
+  - RESTful API architecture
+  - JWT token authentication
+  - Real-time data synchronization
+  - Secure user data handling
+
+## 🚀 Technologies Used
+
+- **Frontend:**
+  - React.js
+  - Tailwind CSS
+  - Firebase Auth
+  - React Router
+  - React Icons
+
+- **Backend:**
+  - Node.js
+  - Express.js
+  - MongoDB
+  - Firebase Admin SDK
+  - JWT
+
+## 🔧 Environment Setup
+
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a `.env` file with the following variables:
+   ```env
+   FIREBASE_PROJECT_ID=your_project_id
+   DB_USER=your_db_user
+   DB_PASS=your_db_password
+   ```
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+## 📱 Screenshots
+
+[Add your application screenshots here]
+
+
