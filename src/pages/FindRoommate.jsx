@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '../provider/AuthProvider';
 import { Helmet } from 'react-helmet';
@@ -131,68 +131,68 @@ const FindRoommate = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Title */}
         <div>
-          <label className="block text-sm font-medium mb-2">Title</label>
+          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Title</label>
           <input
             type="text"
             {...register('title', { required: 'Title is required' })}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-500 focus:border-primary-500 dark:focus:border-primary-500"
             placeholder="e.g., Looking for a roommate in NYC"
           />
-          {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>}
+          {errors.title && <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.title.message}</p>}
         </div>
 
         {/* Location */}
         <div>
-          <label className="block text-sm font-medium mb-2">Location</label>
+          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Location</label>
           <input
             type="text"
             {...register('location', { required: 'Location is required' })}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-500 focus:border-primary-500 dark:focus:border-primary-500"
             placeholder="e.g., Manhattan, NYC"
           />
-          {errors.location && <p className="text-red-500 text-sm mt-1">{errors.location.message}</p>}
+          {errors.location && <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.location.message}</p>}
         </div>
 
         {/* Rent Amount */}
         <div>
-          <label className="block text-sm font-medium mb-2">Rent Amount ($)</label>
+          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Rent Amount ($)</label>
           <input
             type="number"
             {...register('rentAmount', { 
               required: 'Rent amount is required',
               min: { value: 0, message: 'Rent must be positive' }
             })}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-500 focus:border-primary-500 dark:focus:border-primary-500"
             placeholder="e.g., 1500"
           />
-          {errors.rentAmount && <p className="text-red-500 text-sm mt-1">{errors.rentAmount.message}</p>}
+          {errors.rentAmount && <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.rentAmount.message}</p>}
         </div>
 
         {/* Room Type */}
         <div>
-          <label className="block text-sm font-medium mb-2">Room Type</label>
+          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Room Type</label>
           <select
             {...register('roomType', { required: 'Room type is required' })}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-500 focus:border-primary-500 dark:focus:border-primary-500"
           >
             <option value="">Select a room type</option>
             {roomTypes.map(type => (
               <option key={type} value={type}>{type}</option>
             ))}
           </select>
-          {errors.roomType && <p className="text-red-500 text-sm mt-1">{errors.roomType.message}</p>}
+          {errors.roomType && <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.roomType.message}</p>}
         </div>
 
         {/* Lifestyle Preferences */}
         <div>
-          <label className="block text-sm font-medium mb-2">Lifestyle Preferences</label>
+          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Lifestyle Preferences</label>
           <div className="grid grid-cols-2 gap-4">
             {lifestyleOptions.map(option => (
-              <label key={option.value} className="flex items-center space-x-2">
+              <label key={option.value} className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
                 <input
                   type="checkbox"
                   {...register('lifestylePreferences.' + option.value)}
-                  className="rounded"
+                  className="rounded border-gray-300 dark:border-gray-600 text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-500 bg-white dark:bg-gray-700"
                 />
                 <span>{option.label}</span>
               </label>
@@ -202,59 +202,59 @@ const FindRoommate = () => {
 
         {/* Description */}
         <div>
-          <label className="block text-sm font-medium mb-2">Description</label>
+          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Description</label>
           <textarea
             {...register('description', { required: 'Description is required' })}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-500 focus:border-primary-500 dark:focus:border-primary-500"
             rows="4"
             placeholder="Describe the room, location, and what you're looking for in a roommate..."
           />
-          {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>}
+          {errors.description && <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.description.message}</p>}
         </div>
 
         {/* Contact Info */}
         <div>
-          <label className="block text-sm font-medium mb-2">Contact Information</label>
+          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Contact Information</label>
           <input
             type="text"
             {...register('contactInfo', { required: 'Contact information is required' })}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-500 focus:border-primary-500 dark:focus:border-primary-500"
             placeholder="e.g., Phone number or email"
           />
-          {errors.contactInfo && <p className="text-red-500 text-sm mt-1">{errors.contactInfo.message}</p>}
+          {errors.contactInfo && <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.contactInfo.message}</p>}
         </div>
 
         {/* Availability */}
         <div>
-          <label className="block text-sm font-medium mb-2">Availability</label>
+          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Availability</label>
           <select
             {...register('availability', { required: 'Availability is required' })}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-500 focus:border-primary-500 dark:focus:border-primary-500"
           >
             <option value="Available">Available</option>
             <option value="Not Available">Not Available</option>
           </select>
-          {errors.availability && <p className="text-red-500 text-sm mt-1">{errors.availability.message}</p>}
+          {errors.availability && <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.availability.message}</p>}
         </div>
 
         {/* Read-only User Info */}
-        <div className="bg-secondary-100 dark:bg-secondary-800 p-4 rounded">
+        <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
           <div className="mb-2">
-            <label className="block text-sm font-medium text-secondary-600 dark:text-secondary-400">User Email</label>
+            <label className="block text-sm font-medium text-gray-600 dark:text-gray-400">User Email</label>
             <input
               type="text"
               value={user?.email || ''}
               disabled
-              className="w-full p-2 bg-background-light dark:bg-background-dark rounded"
+              className="w-full p-2 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded border-gray-200 dark:border-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-secondary-600 dark:text-secondary-400">User Name</label>
+            <label className="block text-sm font-medium text-gray-600 dark:text-gray-400">User Name</label>
             <input
               type="text"
               value={user?.displayName || ''}
               disabled
-              className="w-full p-2 bg-background-light dark:bg-background-dark rounded"
+              className="w-full p-2 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded border-gray-200 dark:border-gray-600"
             />
           </div>
         </div>
@@ -263,7 +263,7 @@ const FindRoommate = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 disabled:bg-blue-300"
+          className="w-full bg-primary-600 text-white py-2 px-4 rounded-lg hover:bg-primary-700 disabled:bg-primary-400 dark:disabled:bg-primary-800 transition-colors duration-200"
         >
           {loading ? (isEditing ? 'Updating...' : 'Creating...') : (isEditing ? 'Update Listing' : 'Create Listing')}
         </button>

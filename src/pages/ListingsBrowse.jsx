@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { toast } from 'react-hot-toast';
 import { Helmet } from 'react-helmet';
 import { FaSearch, FaExclamationTriangle } from 'react-icons/fa';

@@ -15,35 +15,21 @@ export const ThemeProvider = ({ children }) => {
     // Check localStorage first
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
-      console.log('Initial theme from localStorage:', savedTheme);
       return savedTheme === 'dark';
     }
-    
     // Then check system preference
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    console.log('System prefers dark mode:', systemPrefersDark);
-    return systemPrefersDark;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
-  // Apply theme on mount and when it changes
   useEffect(() => {
-    console.log('Theme changed to:', isDarkMode ? 'dark' : 'light');
-    
     // Update localStorage
     localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
     
     // Apply theme to document
-    const root = window.document.documentElement;
     if (isDarkMode) {
-      root.classList.add('dark');
-      root.setAttribute('data-theme', 'dark');
-      document.body.style.backgroundColor = '#0f172a';
-      document.body.style.color = '#f8fafc';
+      document.documentElement.classList.add('dark');
     } else {
-      root.classList.remove('dark');
-      root.setAttribute('data-theme', 'light');
-      document.body.style.backgroundColor = '#ffffff';
-      document.body.style.color = '#1e293b';
+      document.documentElement.classList.remove('dark');
     }
   }, [isDarkMode]);
 
@@ -54,7 +40,6 @@ export const ThemeProvider = ({ children }) => {
     const handleChange = (e) => {
       // Only update if user hasn't set a preference
       if (!localStorage.getItem('theme')) {
-        console.log('System theme changed to:', e.matches ? 'dark' : 'light');
         setIsDarkMode(e.matches);
       }
     };
@@ -64,7 +49,6 @@ export const ThemeProvider = ({ children }) => {
   }, []);
 
   const toggleTheme = () => {
-    console.log('Toggle theme called. Current theme:', isDarkMode ? 'dark' : 'light');
     setIsDarkMode((prev) => !prev);
   };
 
@@ -75,4 +59,4 @@ export const ThemeProvider = ({ children }) => {
   );
 };
 
-export default ThemeProvider; 
+export default ThemeProvider;

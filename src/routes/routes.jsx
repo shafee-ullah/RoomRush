@@ -1,8 +1,8 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { createBrowserRouter } from "react-router";
 import HomeLayout from "../layouts/HomeLayout";
 import Home from "../pages/Home";
-import LogIn from "../pages/LogIn";
+import Login from "../pages/Login";
 import Register from "../pages/Register";
 import ForgotPassword from "../provider/ForgotPassword";
 import Spinner from "../components/Spinner";
@@ -14,16 +14,41 @@ import MyListings from "../pages/MyListings";
 import PrivateRoute from "../provider/PrivateRoute";
 import DetailsPage from "../pages/DetailsPage";  
 import UpdatePost from "../pages/UpdatePost";    
+import FindRoommate from "../pages/FindRoommate";
+import Profile from "../pages/Profile";
+import AuthProvider from "../provider/AuthProvider";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomeLayout />,
+    element: (
+      <AuthProvider>
+        <HomeLayout />
+      </AuthProvider>
+    ),
     errorElement: <Errorpages />,
     children: [
       {
         index: true,
         element: <Home />,
+        fallbackElement: <Spinner />,
+      },
+      {
+        path: "/find-roommate",
+        element: (
+          <PrivateRoute>
+            <FindRoommate />
+          </PrivateRoute>
+        ),
+        fallbackElement: <Spinner />,
+      },
+      {
+        path: "/find-roommate/:id",
+        element: (
+          <PrivateRoute>
+            <FindRoommate />
+          </PrivateRoute>
+        ),
         fallbackElement: <Spinner />,
       },
       {
@@ -67,15 +92,27 @@ const router = createBrowserRouter([
         ),
         fallbackElement: <Spinner />,
       },
+      {
+        path: "/profile",
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
   {
     path: "/auth",
-    element: <AuthLayout />,
+    element: (
+      <AuthProvider>
+        <AuthLayout />
+      </AuthProvider>
+    ),
     children: [
       {
         path: "/auth/login",
-        element: <LogIn />,
+        element: <Login />,
       },
       {
         path: "/auth/register",

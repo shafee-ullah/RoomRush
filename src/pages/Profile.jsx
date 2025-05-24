@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../provider/AuthProvider';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { toast } from 'react-hot-toast';
 import { Helmet } from 'react-helmet';
 import { FaUser, FaEnvelope, FaPhone, FaEdit, FaSignOutAlt, FaExclamationTriangle } from 'react-icons/fa';

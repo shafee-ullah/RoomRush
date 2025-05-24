@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 import { useAuth } from '../provider/AuthProvider';
 import { toast } from 'react-hot-toast';
 import { Helmet } from 'react-helmet';
