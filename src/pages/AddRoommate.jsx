@@ -1,7 +1,9 @@
+
 import { useForm } from 'react-hook-form';
 import { useContext } from 'react';
 import { AuthContext } from '../provider/AuthProvider';
 import { toast } from 'react-toastify';
+import PrivateRoute from '../provider/PrivateRoute';
 
 const AddRoommate = () => {
   const { user } = useContext(AuthContext);
@@ -20,12 +22,12 @@ const AddRoommate = () => {
           userEmail: user.email,
           userName: user.displayName,
           availability: 'Available',
-          likes: 0,
-          likedBy: []
+          likes: 0
         })
       });
 
       if (!response.ok) throw new Error('Failed to create post');
+      
       toast.success('Post created successfully!');
     } catch (error) {
       toast.error(error.message);
@@ -34,12 +36,30 @@ const AddRoommate = () => {
 
   return (
     <div className="max-w-2xl mx-auto my-8 p-4">
-      <h1 className="text-3xl font-bold mb-6">Create Roommate Post</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">Create Roommate Post</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {/* Form fields */}
-        <button type="submit" className="btn btn-primary w-full">Create Post</button>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Title</span>
+          </label>
+          <input
+            {...register('title', { required: 'Title is required' })}
+            className="input input-bordered"
+            placeholder="Looking for roommate in..."
+          />
+          {errors.title && <span className="text-error">{errors.title.message}</span>}
+        </div>
+
+        {/* Add other form fields similarly */}
+
+        <div className="form-control mt-6">
+          <button type="submit" className="btn btn-primary w-full">
+            Create Post
+          </button>
+        </div>
       </form>
     </div>
   );
 };
+
 export default AddRoommate;

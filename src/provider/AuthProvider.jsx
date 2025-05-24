@@ -30,13 +30,7 @@ const AuthProvider = ({children}) => {
         return signOut(auth);
     }
 
-    // const updateUserProfile = (name, photoURL) => {
-        
-    //     return updateProfile(auth.currentUser, {
-    //         displayName: name,
-    //         photoURL: photoURL
-    //     });
-    // }
+   
 
     const updateUserProfile = (name, photoURL) => {
         return updateProfile(auth.currentUser, {

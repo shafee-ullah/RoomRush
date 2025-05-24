@@ -8,11 +8,12 @@ import ForgotPassword from "../provider/ForgotPassword";
 import Spinner from "../components/Spinner";
 import Errorpages from "../pages/ErrorPages";
 import AuthLayout from "../layouts/AuthLayout";
-import FindRoommate from "../pages/FindRoommate";
+import AddRoommate from "../pages/AddRoommate";  
 import ListingsBrowse from "../pages/ListingsBrowse";
 import MyListings from "../pages/MyListings";
 import PrivateRoute from "../provider/PrivateRoute";
-
+import DetailsPage from "../pages/DetailsPage";  
+import UpdatePost from "../pages/UpdatePost";    
 
 const router = createBrowserRouter([
   {
@@ -22,47 +23,74 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element:<Home/>, 
-        hydrateFallbackElement: <Spinner />,
+        element: <Home />,
+        fallbackElement: <Spinner />,
       },
       {
-        path:"/find-roommate",
-        element:(<PrivateRoute><FindRoommate /></PrivateRoute>),
-        hydrateFallbackElement: <Spinner />,
+        path: "/add-roommate",  
+        element: (
+          <PrivateRoute>
+            <AddRoommate />
+          </PrivateRoute>
+        ),
+        fallbackElement: <Spinner />,
       },
       {
-         path:"/browse-listings",
-       element: <ListingsBrowse />,
-        hydrateFallbackElement: <Spinner />,
+        path: "/browse-listings",
+        element: <ListingsBrowse />,
+        fallbackElement: <Spinner />,
       },
       {
-         path:"/my-listings",
-       element:(<PrivateRoute><MyListings /></PrivateRoute>),
-        hydrateFallbackElement: <Spinner />,
+        path: "/my-listings",
+        element: (
+          <PrivateRoute>
+            <MyListings />
+          </PrivateRoute>
+        ),
+        fallbackElement: <Spinner />,
+      },
+      {
+        path: "/details/:id",
+        element: (
+          <PrivateRoute>
+            <DetailsPage />
+          </PrivateRoute>
+        ),
+        fallbackElement: <Spinner />,
+      },
+      {
+        path: "/update/:id", 
+        element: (
+          <PrivateRoute>
+            <UpdatePost />
+          </PrivateRoute>
+        ),
+        fallbackElement: <Spinner />,
       },
     ],
   },
   {
-        path: "/auth",
-        element: <AuthLayout />,
-        children: [
-            {
-                path: "/auth/login",
-                element: <LogIn />,
-            },
-            {
-                path: "/auth/register",
-                element: <Register />,
-            },
-            {
-                path: "/auth/forgot-password",
-                element: <ForgotPassword />,
-            },
-        ],
-    },
-     {
-      path: "/*",
-      element: <Errorpages />,
-    },
+    path: "/auth",
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "/auth/login",
+        element: <LogIn />,
+      },
+      {
+        path: "/auth/register",
+        element: <Register />,
+      },
+      {
+        path: "/auth/forgot-password",
+        element: <ForgotPassword />,
+      },
+    ],
+  },
+  {
+    path: "/*",
+    element: <Errorpages />,
+  },
 ]);
+
 export default router;
