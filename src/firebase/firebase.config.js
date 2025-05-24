@@ -5,12 +5,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBPlWPurRVTY1jX5BHCNm0xOQ69rXTYbHQ",
-  authDomain: "roomrush-796cb.firebaseapp.com",
-  projectId: "roomrush-796cb",
-  storageBucket: "roomrush-796cb.firebasestorage.app",
-  messagingSenderId: "417928849473",
-  appId: "1:417928849473:web:d95826eb2a1680c145fec0"
+  apiKey:            import.meta.env.VITE_apiKey  ,
+  authDomain:        import.meta.env.VITE_authDomain  ,
+  projectId:         import.meta.env.VITE_projectId  ,
+  storageBucket:     import.meta.env.VITE_storageBucket  ,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId  ,
+  appId: import.meta.env.VITE_appId  ,
 };
 
 // Initialize Firebase
