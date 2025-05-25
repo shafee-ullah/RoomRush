@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../provider/AuthProvider';
 import { toast } from 'react-hot-toast';
-import { NavLink, useLocation } from "react-router";
+import { NavLink } from "react-router-dom";
 import { IoReturnDownBackSharp } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import {
@@ -20,7 +20,8 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = location.state?.from?.pathname || location.state || "/";
+  // Get the redirect path from location state
+  const from = location.state?.from?.pathname || "/";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +29,8 @@ const Login = () => {
       setLoading(true);
       await signIn(email, password);
       toast.success('Login successful!');
-      setTimeout(() => navigate(from, { replace: true }), 1000);
+      // Navigate to the intended destination
+      navigate(from, { replace: true });
     } catch (error) {
       console.error('Login error:', error);
       toast.error(error.message || 'Login failed. Please try again.');
@@ -42,7 +44,8 @@ const Login = () => {
       setLoading(true);
       await googleSignIn();
       toast.success('Login successful!');
-      setTimeout(() => navigate(from, { replace: true }), 1000);
+      // Navigate to the intended destination
+      navigate(from, { replace: true });
     } catch (error) {
       console.error('Google sign-in error:', error);
       toast.error(error.message || 'Google sign-in failed. Please try again.');
@@ -63,11 +66,11 @@ const Login = () => {
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Sign in to your account
           </h2>
-          <p className="mt-2 text-sm text-gray-500">
+          <p className="mt-2 text-center text-sm text-gray-600">
             New to RoomRush?{" "}
             <NavLink
               to="/auth/register"
-              className="font-semibold text-green-600 hover:text-green-700"
+              className="font-medium text-blue-600 hover:text-blue-500"
             >
               Register here
             </NavLink>
@@ -107,6 +110,17 @@ const Login = () => {
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
               />
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div className="text-sm">
+              <NavLink
+                to="/auth/forgot-password"
+                className="font-medium text-blue-600 hover:text-blue-500"
+              >
+                Forgot your password?
+              </NavLink>
             </div>
           </div>
 

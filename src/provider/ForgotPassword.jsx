@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation, NavLink } from 'react-router';
+import { useLocation, NavLink } from 'react-router-dom';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import auth from '../firebase/firebase.config';
 

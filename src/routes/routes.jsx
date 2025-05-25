@@ -1,5 +1,5 @@
 import React from "react";
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter } from "react-router-dom";
 import HomeLayout from "../layouts/HomeLayout";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -8,24 +8,20 @@ import ForgotPassword from "../provider/ForgotPassword";
 import Spinner from "../components/Spinner";
 import Errorpages from "../pages/ErrorPages";
 import AuthLayout from "../layouts/AuthLayout";
-import AddRoommate from "../pages/AddRoommate";  
+import AddRoommate from "../pages/AddRoommate";
 import ListingsBrowse from "../pages/ListingsBrowse";
 import MyListings from "../pages/MyListings";
 import PrivateRoute from "../provider/PrivateRoute";
-import DetailsPage from "../pages/DetailsPage";  
-import UpdatePost from "../pages/UpdatePost";    
+import DetailsPage from "../pages/DetailsPage";
+import UpdatePost from "../pages/UpdatePost";
 import FindRoommate from "../pages/FindRoommate";
 import Profile from "../pages/Profile";
 import AuthProvider from "../provider/AuthProvider";
 
-const router = createBrowserRouter([
+const routes = [
   {
     path: "/",
-    element: (
-      <AuthProvider>
-        <HomeLayout />
-      </AuthProvider>
-    ),
+    element: <HomeLayout />,
     errorElement: <Errorpages />,
     children: [
       {
@@ -52,7 +48,7 @@ const router = createBrowserRouter([
         fallbackElement: <Spinner />,
       },
       {
-        path: "/add-roommate",  
+        path: "/add-roommate",
         element: (
           <PrivateRoute>
             <AddRoommate />
@@ -84,7 +80,7 @@ const router = createBrowserRouter([
         fallbackElement: <Spinner />,
       },
       {
-        path: "/update/:id", 
+        path: "/update/:id",
         element: (
           <PrivateRoute>
             <UpdatePost />
@@ -104,11 +100,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/auth",
-    element: (
-      <AuthProvider>
-        <AuthLayout />
-      </AuthProvider>
-    ),
+    element: <AuthLayout />,
     children: [
       {
         path: "/auth/login",
@@ -128,6 +120,14 @@ const router = createBrowserRouter([
     path: "/*",
     element: <Errorpages />,
   },
-]);
+];
+
+// Wrap the entire router with AuthProvider
+const router = createBrowserRouter(
+  routes.map((route) => ({
+    ...route,
+    element: <AuthProvider>{route.element}</AuthProvider>,
+  }))
+);
 
 export default router;

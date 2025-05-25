@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FaMapMarkerAlt, FaDollarSign, FaBed, FaUser, FaHeart } from 'react-icons/fa';
 

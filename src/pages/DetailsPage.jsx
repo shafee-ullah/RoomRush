@@ -25,7 +25,7 @@ const DetailsPage = () => {
       try {
         setLoading(true);
         setError(null);
-        const response = await fetch(`http://localhost:5001/posts/${id}`);
+        const response = await fetch(`https://b11a10-server-side-shafee-ullah.vercel.app/posts/${id}`);
         
         if (!response.ok) {
           if (response.status === 404) {
@@ -72,9 +72,9 @@ const DetailsPage = () => {
     try {
       setLoading(true);
       const token = await user.getIdToken();
-      console.log('Sending like request for post:', id);
+      // console.log('Sending like request for post:', id);
       
-      const response = await fetch(`http://localhost:5001/posts/${id}/like`, {
+      const response = await fetch(`https://b11a10-server-side-shafee-ullah.vercel.app/posts/${id}/like`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -89,7 +89,7 @@ const DetailsPage = () => {
       }
       
       const updatedPost = await response.json();
-      console.log('Like response:', updatedPost);
+      // console.log('Like response:', updatedPost);
       
       setPost(prev => ({ ...prev, likes: updatedPost.likes }));
       setShowContact(true);

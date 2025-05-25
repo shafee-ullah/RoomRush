@@ -1,6 +1,6 @@
 import React from "react";
 import logoImg from "../assets/icons8-room-100 (1).png";
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
 import { FaFacebook, FaTwitterSquare, FaYoutube, FaLinkedin, FaMapMarkerAlt, FaPhone, FaEnvelope } from "react-icons/fa";
 
 const Footer = () => {

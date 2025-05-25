@@ -46,7 +46,7 @@ const Profile = () => {
         setLoading(true);
         setError(null);
         const token = await user.getIdToken();
-        const response = await fetch(`http://localhost:5001/users/${user.email}`, {
+        const response = await fetch(`https://b11a10-server-side-shafee-ullah.vercel.app/users/${user.email}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -116,7 +116,7 @@ const Profile = () => {
       await updateUserProfile(formData.displayName, formData.photoURL);
 
       // Then update backend profile
-      const response = await fetch(`http://localhost:5001/users/${user.email}`, {
+      const response = await fetch(`https://b11a10-server-side-shafee-ullah.vercel.app/users/${user.email}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

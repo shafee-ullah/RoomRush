@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { FaSearch, FaHome, FaUserFriends } from 'react-icons/fa';
 
 const Hero = () => {

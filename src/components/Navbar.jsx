@@ -1,10 +1,13 @@
 // src/components/Navbar.jsx
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
 import { useTheme } from "../provider/ThemeProvider";
 import { FaUser, FaSignOutAlt, FaHome, FaSearch, FaPlus, FaList, FaUserCircle, FaSun, FaMoon, FaInfoCircle } from "react-icons/fa";
 import logoImg from "../assets/icons8-room-100 (1).png";
+
+const DEFAULT_PROFILE_IMAGE = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0yMCAyMXYtMmE0IDQgMCAwIDAtNC00SDhhNCA0IDAgMCAwLTQgNHYyIj48L3BhdGg+PGNpcmNsZSBjeD0iMTIiIGN5PSI3IiByPSI0Ij48L2NpcmNsZT48L3N2Zz4=';
+
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const { isDarkMode, toggleTheme } = useTheme();
@@ -17,18 +20,18 @@ const Navbar = () => {
     const fetchUserProfile = async () => {
       if (user) {
         try {
-          console.log('Fetching user profile for:', user.email);
-          console.log('Current Firebase photo URL:', user.photoURL);
+          // console.log('Fetching user profile for:', user.email);
+          // console.log('Current Firebase photo URL:', user.photoURL);
           
           const token = await user.getIdToken();
-          const response = await fetch(`http://localhost:5001/users/${user.email}`, {
+          const response = await fetch(`https://b11a10-server-side-shafee-ullah.vercel.app/users/${user.email}`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
           });
           if (response.ok) {
             const data = await response.json();
-            console.log('Backend profile data:', data);
+            // console.log('Backend profile data:', data);
             setUserProfile(data);
           } else {
             console.error('Backend response not OK:', response.status);
@@ -44,23 +47,23 @@ const Navbar = () => {
 
   // Function to get the most up-to-date photo URL
   const getProfilePhotoURL = () => {
-    console.log('Getting profile photo URL');
-    console.log('Backend profile photo:', userProfile?.photoURL);
-    console.log('Firebase photo:', user?.photoURL);
+    // console.log('Getting profile photo URL');
+    // console.log('Backend profile photo:', userProfile?.photoURL);
+    // console.log('Firebase photo:', user?.photoURL);
     
     // First try backend profile photo
-    if (userProfile?.photoURL) {
-      console.log('Using backend photo URL:', userProfile.photoURL);
+    if (userProfile?.photoURL && userProfile.photoURL !== 'null') {
+      // console.log('Using backend photo URL:', userProfile.photoURL);
       return userProfile.photoURL;
     }
     // Then try Firebase auth photo
-    if (user?.photoURL) {
-      console.log('Using Firebase photo URL:', user.photoURL);
+    if (user?.photoURL && user.photoURL !== 'null') {
+      // console.log('Using Firebase photo URL:', user.photoURL);
       return user.photoURL;
     }
-    // Finally return placeholder
-    console.log('Using placeholder image');
-    return 'https://via.placeholder.com/32x32?text=Profile';
+    // Finally return embedded SVG placeholder
+    // console.log('Using default profile image');
+    return DEFAULT_PROFILE_IMAGE;
   };
 
   const handleLogout = async () => {
@@ -167,11 +170,10 @@ const Navbar = () => {
                       alt="Profile"
                       className="h-8 w-8 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
                       onError={(e) => {
-                        console.error('Image failed to load:', e.target.src);
+                        console.log('Image failed to load, using default');
                         e.target.onerror = null; // Prevent infinite loop
-                        e.target.src = 'https://via.placeholder.com/32x32?text=Profile';
+                        e.target.src = DEFAULT_PROFILE_IMAGE;
                       }}
-                      onLoad={() => console.log('Image loaded successfully')}
                     />
                   </div>
                   <span className="text-sm font-medium hidden md:block">

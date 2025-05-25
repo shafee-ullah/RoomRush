@@ -1,23 +1,22 @@
-import React, { use, useContext } from 'react';
-import { AuthContext } from './AuthProvider';
+import React from "react";
+import { AuthContext } from "./AuthProvider";
 import { Navigate, useLocation } from "react-router";
-import Spinner from '../components/Spinner';
+import Spinner from "../components/Spinner";
+
 const PrivateRoute = ({ children }) => {
-    const { user, loading } = use(AuthContext);
-    // console.log(user);
+  const { user, loading } = React.useContext(AuthContext);
   const location = useLocation();
-  console.log(location);
 
   if (loading) {
-    return <Spinner></Spinner>;
+    return <Spinner />;
   }
 
-  if (user && user?.email || user?.displayName) {
-    return children;
+  if (!user) {
+    // Save the attempted location for redirect after login
+    return <Navigate to="/auth/login" state={{ from: location }} replace />;
   }
-  return <Navigate state={location.pathname} to="/auth/login"></Navigate>;
+
+  return children;
 };
 
-
 export default PrivateRoute;
-

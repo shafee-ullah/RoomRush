@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { IoReturnDownBackSharp } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from '../provider/AuthProvider';
@@ -82,7 +82,7 @@ const Register = () => {
         window.location.reload(); // Reload to ensure profile image is updated
       }, 1500);
     } catch (error) {
-      console.error('Registration error:', error);
+      // console.error('Registration error:', error);
       setError(error.message || 'Registration failed');
     }
   };
@@ -91,7 +91,7 @@ const Register = () => {
   const createUserProfile = async (user, name, photoURL) => {
     try {
       const token = await user.getIdToken();
-      const response = await fetch('http://localhost:5001/users', {
+      const response = await fetch('https://b11a10-server-side-shafee-ullah.vercel.app/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ const Register = () => {
 
       return await response.json();
     } catch (error) {
-      console.error('Error creating user profile:', error);
+      // console.error('Error creating user profile:', error);
       throw error;
     }
   };
