@@ -1,11 +1,12 @@
 import React from "react";
 import { AuthContext } from "./AuthProvider";
-import { Navigate, useLocation } from "react-router";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner";
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = React.useContext(AuthContext);
   const location = useLocation();
+  const navigate = useNavigate();
 
   if (loading) {
     return <Spinner />;

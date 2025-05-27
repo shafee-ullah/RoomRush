@@ -33,7 +33,7 @@ const Home = () => {
         };
 
         // Only add Authorization if user is logged in
-        if (user) {
+        if (user && typeof user.getIdToken === "function") {
           try {
             const token = await user.getIdToken(true);
             headers["Authorization"] = `Bearer ${token}`;
@@ -50,34 +50,16 @@ const Home = () => {
         });
         const url = `${baseUrl}?${params.toString()}`;
 
-        // console.log('Fetching posts from:', url);
-
         const response = await fetch(url, {
           method: "GET",
           headers: headers,
-          // mode: 'cors'
         });
 
-        // For 401, try fetching without auth header first
-        // if (headers["Authorization"]) {
-        //   delete headers["Authorization"];
-        //   const publicResponse = await fetch(url, {
-        //     method: "GET",
-        //     headers: headers,
-        //     // mode: 'cors'
-        //   });
-
-        //   if (publicResponse.ok) {
-        //     const publicData = await publicResponse.json();
-        //     if (Array.isArray(publicData)) {
-        //       setPosts(publicData);
-        //       return;
-        //     }
-        //   }
-        // }
+        if (!response.ok) {
+          throw new Error(`Failed to fetch posts: ${response.status}`);
+        }
 
         const data = await response.json();
-        // console.log('Received data:', data);
 
         if (!Array.isArray(data)) {
           console.error("Invalid data format:", data);

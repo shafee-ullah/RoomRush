@@ -1,27 +1,28 @@
-import React, { useContext, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import React, { useContext, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { IoReturnDownBackSharp } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
-import { AuthContext } from '../provider/AuthProvider';
+import { AuthContext } from "../provider/AuthProvider";
 import {
   CheckCircleIcon,
   XMarkIcon,
   ExclamationTriangleIcon,
 } from "@heroicons/react/20/solid";
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet";
 
 const Register = () => {
-  const { createUser, googleSignIn, updateUserProfile } = useContext(AuthContext);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const { createUser, googleSignIn, updateUserProfile } =
+    useContext(AuthContext);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
   // Helper function to validate URL and check if it's an image
   const isValidImageUrl = async (url) => {
     try {
-      const response = await fetch(url, { method: 'HEAD' });
-      const contentType = response.headers.get('Content-Type');
-      return contentType.startsWith('image/');
+      const response = await fetch(url, { method: "HEAD" });
+      const contentType = response.headers.get("Content-Type");
+      return contentType.startsWith("image/");
     } catch {
       return false;
     }
@@ -36,54 +37,56 @@ const Register = () => {
     const password = form.password.value;
 
     // Reset previous error/success messages
-    setError('');
-    setSuccess('');
+    setError("");
+    setSuccess("");
 
     // Validate photo URL if provided
     if (photoURL) {
       try {
         const isValid = await isValidImageUrl(photoURL);
         if (!isValid) {
-          setError('Please provide a valid image URL');
+          setError("Please provide a valid image URL");
           return;
         }
       } catch (error) {
-        setError('Invalid image URL');
+        setError("Invalid image URL");
         return;
       }
     }
 
     // Password validation
     if (!/(?=.*[A-Z])/.test(password)) {
-      setError('Password must contain at least one uppercase letter');
+      setError("Password must contain at least one uppercase letter");
       return;
     }
     if (!/(?=.*[a-z])/.test(password)) {
-      setError('Password must contain at least one lowercase letter');
+      setError("Password must contain at least one lowercase letter");
       return;
     }
     if (password.length < 6) {
-      setError('Password must be at least 6 characters long');
+      setError("Password must be at least 6 characters long");
       return;
     }
 
     try {
       const userCredential = await createUser(email, password);
-      
-      // Always update profile to ensure Firebase auth is updated
+      console.log("User created:", userCredential.user);
+
+      // Update Firebase profile with name and photo
       await updateUserProfile(name, photoURL);
-      
+      console.log("Profile updated with:", { name, photoURL });
+
       // Create user profile in backend
       await createUserProfile(userCredential.user, name, photoURL);
-      
-      setSuccess('Registration successful!');
+
+      setSuccess("Registration successful!");
       setTimeout(() => {
-        navigate('/');
+        navigate("/");
         window.location.reload(); // Reload to ensure profile image is updated
       }, 1500);
     } catch (error) {
-      // console.error('Registration error:', error);
-      setError(error.message || 'Registration failed');
+      console.error("Registration error:", error);
+      setError(error.message || "Registration failed");
     }
   };
 
@@ -91,51 +94,57 @@ const Register = () => {
   const createUserProfile = async (user, name, photoURL) => {
     try {
       const token = await user.getIdToken();
-      const response = await fetch('https://b11a10-server-side-shafee-ullah.vercel.app/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          email: user.email,
-          displayName: name,
-          photoURL: photoURL,
-          preferences: {
-            notifications: true,
-            emailUpdates: true
-          }
-        })
-      });
+      console.log("Creating user profile with:", { name, photoURL });
+
+      const response = await fetch(
+        "https://b11a10-server-side-shafee-ullah.vercel.app/users",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            email: user.email,
+            displayName: name,
+            photoURL: photoURL,
+            preferences: {
+              notifications: true,
+              emailUpdates: true,
+            },
+          }),
+        }
+      );
 
       if (!response.ok) {
-        throw new Error('Failed to create user profile');
+        throw new Error("Failed to create user profile");
       }
 
-      return await response.json();
+      const data = await response.json();
+      console.log("User profile created:", data);
+      return data;
     } catch (error) {
-      // console.error('Error creating user profile:', error);
+      console.error("Error creating user profile:", error);
       throw error;
     }
   };
 
   const handleGoogleSignIn = () => {
     googleSignIn()
-      .then(result => {
-        setSuccess('You are now Registered');
-        setTimeout(() => navigate('/'), 1000);
+      .then((result) => {
+        setSuccess("You are now Registered");
+        setTimeout(() => navigate("/"), 1000);
       })
-      .catch(error => {
-        setError('Registration Failed');
-       
+      .catch((error) => {
+        setError("Registration Failed");
       });
   };
 
   return (
     <div className="flex w-11/12 mx-auto mt-10 flex-1">
       <Helmet>
-    <title>Registration - RoomRush</title>
-  </Helmet>
+        <title>Registration - RoomRush</title>
+      </Helmet>
       <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div>
@@ -143,8 +152,11 @@ const Register = () => {
               Create your account
             </h2>
             <p className="mt-2 text-sm text-gray-500">
-              Already registered?{' '}
-              <NavLink to="/auth/login" className="font-semibold text-green-600 hover:text-green-700">
+              Already registered?{" "}
+              <NavLink
+                to="/auth/login"
+                className="font-semibold text-green-600 hover:text-green-700"
+              >
                 Sign in
               </NavLink>
             </p>
@@ -161,11 +173,13 @@ const Register = () => {
                   />
                 </div>
                 <div className="ml-3">
-                  <p className="text-sm font-medium text-green-800">{success}</p>
+                  <p className="text-sm font-medium text-green-800">
+                    {success}
+                  </p>
                 </div>
                 <div className="ml-auto pl-3">
                   <button
-                    onClick={() => setSuccess('')}
+                    onClick={() => setSuccess("")}
                     className="inline-flex rounded-md bg-green-50 p-1.5 text-green-500 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
                   >
                     <XMarkIcon className="size-5" aria-hidden="true" />
@@ -195,7 +209,10 @@ const Register = () => {
           <div className="mt-10">
             <form onSubmit={handleRegister} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-900"
+                >
                   Name
                 </label>
                 <div className="mt-2">
@@ -210,7 +227,10 @@ const Register = () => {
               </div>
 
               <div>
-                <label htmlFor="photoURL" className="block text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="photoURL"
+                  className="block text-sm font-medium text-gray-900"
+                >
                   Profile Photo URL
                 </label>
                 <div className="mt-2">
@@ -228,7 +248,10 @@ const Register = () => {
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-900"
+                >
                   Email address
                 </label>
                 <div className="mt-2">
@@ -244,7 +267,10 @@ const Register = () => {
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-900"
+                >
                   Password
                 </label>
                 <div className="mt-2">
@@ -258,7 +284,8 @@ const Register = () => {
                   />
                 </div>
                 <p className="mt-2 text-xs text-gray-500">
-                  Password must contain at least one uppercase letter, one lowercase letter, and be at least 6 characters long.
+                  Password must contain at least one uppercase letter, one
+                  lowercase letter, and be at least 6 characters long.
                 </p>
               </div>
 
@@ -302,7 +329,6 @@ const Register = () => {
                   <IoReturnDownBackSharp className="h-5 w-5" />
                 </NavLink>
               </div>
-
             </div>
           </div>
         </div>

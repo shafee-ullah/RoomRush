@@ -3,10 +3,23 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
 import { useTheme } from "../provider/ThemeProvider";
-import { FaUser, FaSignOutAlt, FaHome, FaSearch, FaPlus, FaList, FaUserCircle, FaSun, FaMoon, FaInfoCircle } from "react-icons/fa";
+import {
+  FaUser,
+  FaSignOutAlt,
+  FaHome,
+  FaSearch,
+  FaPlus,
+  FaList,
+  FaUserCircle,
+  FaSun,
+  FaMoon,
+  FaInfoCircle,
+} from "react-icons/fa";
 import logoImg from "../assets/icons8-room-100 (1).png";
 
-const DEFAULT_PROFILE_IMAGE = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0yMCAyMXYtMmE0IDQgMCAwIDAtNC00SDhhNCA0IDAgMCAwLTQgNHYyIj48L3BhdGg+PGNpcmNsZSBjeD0iMTIiIGN5PSI3IiByPSI0Ij48L2NpcmNsZT48L3N2Zz4=';
+// Using a more reliable default profile image
+const DEFAULT_PROFILE_IMAGE =
+  "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -14,57 +27,31 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [userProfile, setUserProfile] = useState(null);
+  const [profileImage, setProfileImage] = useState(DEFAULT_PROFILE_IMAGE);
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      if (user) {
-        try {
-          // console.log('Fetching user profile for:', user.email);
-          // console.log('Current Firebase photo URL:', user.photoURL);
-          
-          const token = await user.getIdToken();
-          const response = await fetch(`https://b11a10-server-side-shafee-ullah.vercel.app/users/${user.email}`, {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
-          if (response.ok) {
-            const data = await response.json();
-            // console.log('Backend profile data:', data);
-            setUserProfile(data);
-          } else {
-            console.error('Backend response not OK:', response.status);
-          }
-        } catch (error) {
-          console.error('Error fetching user profile:', error);
-        }
+    if (user) {
+      console.log("Navbar - Full user object:", user);
+      console.log("Navbar - User photo URL:", user.photoURL);
+      console.log("Navbar - User display name:", user.displayName);
+      console.log("Navbar - User provider data:", user.providerData);
+
+      // Set initial profile image
+      if (user.photoURL) {
+        console.log("Setting profile image to:", user.photoURL);
+        setProfileImage(user.photoURL);
+      } else if (user.providerData?.[0]?.photoURL) {
+        console.log("Using provider photo URL:", user.providerData[0].photoURL);
+        setProfileImage(user.providerData[0].photoURL);
+      } else {
+        console.log("No photo URL found, using default image");
+        setProfileImage(DEFAULT_PROFILE_IMAGE);
       }
-    };
-
-    fetchUserProfile();
+    } else {
+      console.log("No user found, using default image");
+      setProfileImage(DEFAULT_PROFILE_IMAGE);
+    }
   }, [user]);
-
-  // Function to get the most up-to-date photo URL
-  const getProfilePhotoURL = () => {
-    // console.log('Getting profile photo URL');
-    // console.log('Backend profile photo:', userProfile?.photoURL);
-    // console.log('Firebase photo:', user?.photoURL);
-    
-    // First try backend profile photo
-    if (userProfile?.photoURL && userProfile.photoURL !== 'null') {
-      // console.log('Using backend photo URL:', userProfile.photoURL);
-      return userProfile.photoURL;
-    }
-    // Then try Firebase auth photo
-    if (user?.photoURL && user.photoURL !== 'null') {
-      // console.log('Using Firebase photo URL:', user.photoURL);
-      return user.photoURL;
-    }
-    // Finally return embedded SVG placeholder
-    // console.log('Using default profile image');
-    return DEFAULT_PROFILE_IMAGE;
-  };
 
   const handleLogout = async () => {
     try {
@@ -82,6 +69,35 @@ const Navbar = () => {
     }
   };
 
+  const handleImageError = (e) => {
+    console.log("Profile image failed to load, using default");
+    e.target.onerror = null; // Prevent infinite loop
+    setProfileImage(DEFAULT_PROFILE_IMAGE);
+  };
+
+  const renderProfileImage = () => {
+    if (!user) return null;
+
+    const imageUrl =
+      user.photoURL ||
+      user.providerData?.[0]?.photoURL ||
+      DEFAULT_PROFILE_IMAGE;
+    console.log("Rendering profile image with URL:", imageUrl);
+
+    return (
+      <div className="relative w-8 h-8">
+        <img
+          src={imageUrl}
+          alt="Profile"
+          className="h-8 w-8 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
+          onError={handleImageError}
+          crossOrigin="anonymous"
+          referrerPolicy="no-referrer"
+        />
+      </div>
+    );
+  };
+
   return (
     <nav className="bg-white dark:bg-gray-800 shadow-lg transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -90,23 +106,31 @@ const Navbar = () => {
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0 flex items-center">
               <img src={logoImg} alt="RoomRush Logo" className="h-8 w-8 mr-2" />
-              <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">RoomRush</span>
+              <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                RoomRush
+              </span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link to="/" className="px-3 py-2 rounded-md text-sm font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+            <Link
+              to="/"
+              className="px-3 py-2 rounded-md text-sm font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+            >
               <FaHome className="mr-2" />
               Home
             </Link>
-            <Link to="/browse-listings" className="px-3 py-2 rounded-md text-sm font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+            <Link
+              to="/browse-listings"
+              className="px-3 py-2 rounded-md text-sm font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+            >
               <FaSearch className="mr-2" />
               Browse
             </Link>
             <div className="relative group">
-              <Link 
-                to="/find-roommate" 
+              <Link
+                to="/find-roommate"
                 onClick={(e) => handleAuthRequired(e, "/find-roommate")}
                 className="px-3 py-2 rounded-md text-sm font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
               >
@@ -123,7 +147,7 @@ const Navbar = () => {
               )}
             </div>
             <div className="relative group">
-              <Link 
+              <Link
                 to="/my-listings"
                 onClick={(e) => handleAuthRequired(e, "/my-listings")}
                 className="px-3 py-2 rounded-md text-sm font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
@@ -163,39 +187,38 @@ const Navbar = () => {
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none"
                 >
-                  <div className="relative w-8 h-8">
-                    <img
-                      key={getProfilePhotoURL()}
-                      src={getProfilePhotoURL()}
-                      alt="Profile"
-                      className="h-8 w-8 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
-                      onError={(e) => {
-                        console.log('Image failed to load, using default');
-                        e.target.onerror = null; // Prevent infinite loop
-                        e.target.src = DEFAULT_PROFILE_IMAGE;
-                      }}
-                    />
-                  </div>
+                  {renderProfileImage()}
                   <span className="text-sm font-medium hidden md:block">
-                    {userProfile?.displayName || user.displayName || user.email.split('@')[0]}
+                    {user.displayName ||
+                      user.email?.split("@")[0] ||
+                      "Anonymous"}
                   </span>
                 </button>
 
                 {isProfileOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 border border-gray-200 dark:border-gray-700">
+                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50">
+                    <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                        {user.displayName ||
+                          user.email?.split("@")[0] ||
+                          "Anonymous"}
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        {user.email}
+                      </p>
+                    </div>
                     <Link
                       to="/profile"
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      onClick={() => setIsProfileOpen(false)}
+                      className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                     >
-                      <FaUser className="mr-2" />
+                      <FaUser className="inline-block mr-2" />
                       Profile
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                     >
-                      <FaSignOutAlt className="mr-2" />
+                      <FaSignOutAlt className="inline-block mr-2" />
                       Logout
                     </button>
                   </div>
@@ -203,10 +226,16 @@ const Navbar = () => {
               </div>
             ) : (
               <div className="flex items-center space-x-4">
-                <Link to="/auth/login" className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                <Link
+                  to="/auth/login"
+                  className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                >
                   Login
                 </Link>
-                <Link to="/auth/register" className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
+                <Link
+                  to="/auth/register"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                >
                   Register
                 </Link>
               </div>
@@ -250,39 +279,44 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-white dark:bg-gray-800">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <Link to="/" className="block px-3 py-2 rounded-md text-base font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+            <Link
+              to="/"
+              className="block px-3 py-2 rounded-md text-base font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+            >
               <FaHome className="mr-2" />
               Home
             </Link>
-            <Link to="/browse-listings" className="block px-3 py-2 rounded-md text-base font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+            <Link
+              to="/browse-listings"
+              className="block px-3 py-2 rounded-md text-base font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+            >
               <FaSearch className="mr-2" />
               Browse
             </Link>
-            <Link 
+            <Link
               to="/find-roommate"
               onClick={(e) => handleAuthRequired(e, "/find-roommate")}
               className="block px-3 py-2 rounded-md text-base font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
             >
               <FaPlus className="mr-2" />
               Add Listing
-              {!user && (
-                <FaInfoCircle className="ml-1 text-gray-400" />
-              )}
+              {!user && <FaInfoCircle className="ml-1 text-gray-400" />}
             </Link>
-            <Link 
+            <Link
               to="/my-listings"
               onClick={(e) => handleAuthRequired(e, "/my-listings")}
               className="block px-3 py-2 rounded-md text-base font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
             >
               <FaList className="mr-2" />
               My Listings
-              {!user && (
-                <FaInfoCircle className="ml-1 text-gray-400" />
-              )}
+              {!user && <FaInfoCircle className="ml-1 text-gray-400" />}
             </Link>
             {user && (
               <>
-                <Link to="/profile" className="block px-3 py-2 rounded-md text-base font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                <Link
+                  to="/profile"
+                  className="block px-3 py-2 rounded-md text-base font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                >
                   <FaUser className="mr-2" />
                   Profile
                 </Link>
@@ -297,10 +331,16 @@ const Navbar = () => {
             )}
             {!user && (
               <>
-                <Link to="/auth/login" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                <Link
+                  to="/auth/login"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                >
                   Login
                 </Link>
-                <Link to="/auth/register" className="block px-3 py-2 rounded-md text-base font-medium bg-blue-600 text-white hover:bg-blue-700">
+                <Link
+                  to="/auth/register"
+                  className="block px-3 py-2 rounded-md text-base font-medium bg-blue-600 text-white hover:bg-blue-700"
+                >
                   Register
                 </Link>
               </>

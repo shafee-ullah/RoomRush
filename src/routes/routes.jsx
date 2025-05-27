@@ -122,12 +122,11 @@ const routes = [
   },
 ];
 
-// Wrap the entire router with AuthProvider
-const router = createBrowserRouter(
-  routes.map((route) => ({
-    ...route,
-    element: <AuthProvider>{route.element}</AuthProvider>,
-  }))
-);
+// Create router without AuthProvider wrapping
+const router = createBrowserRouter(routes, {
+  future: {
+    v7_startTransition: true,
+  },
+});
 
 export default router;
