@@ -105,7 +105,7 @@ const Navbar = () => {
           {/* Logo and Brand */}
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0 flex items-center">
-              <img src={logoImg} alt="RoomRush Logo" className="h-8 w-8 mr-2" />
+              <img src={logoImg} alt="RoomRush Logo" className="hidden md:block h-8 w-8 mr-2" />
               <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                 RoomRush
               </span>
@@ -171,7 +171,7 @@ const Navbar = () => {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+              className=" rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 "
               aria-label="Toggle theme"
             >
               {isDarkMode ? (
@@ -279,6 +279,7 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-white dark:bg-gray-800">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        
             <Link
               to="/"
               className="block px-3 py-2 rounded-md text-base font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
@@ -327,6 +328,8 @@ const Navbar = () => {
                   <FaSignOutAlt className="mr-2" />
                   Logout
                 </button>
+
+              
               </>
             )}
             {!user && (
