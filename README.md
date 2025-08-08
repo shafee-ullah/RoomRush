@@ -74,6 +74,9 @@ RoomRush is a modern web application designed to help users find roommates and s
 
 ## 📱 Screenshots
 
-[Add your application screenshots here]
+### Homepage
+![RoomRush Homepage](./src/assets/screenshots/homepage.png)
+*Homepage featuring the roommate finder interface with featured roommate listings*
+
 
 
