@@ -4,32 +4,32 @@ import { FaMapMarkerAlt, FaDollarSign, FaBed, FaUser, FaHeart } from 'react-icon
 
 const PostCard = ({ post }) => {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300">
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 w-full">
       {/* Card Header with Image */}
-      <div className="relative h-48 rounded-t-xl bg-gradient-to-r from-primary-500 to-secondary-500 overflow-hidden">
+      <div className="relative h-36 sm:h-48 rounded-t-xl bg-gradient-to-r from-primary-500 to-secondary-500 overflow-hidden">
         <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-          <FaBed className="text-white text-5xl opacity-75" />
+          <FaBed className="text-white text-4xl sm:text-5xl opacity-75" />
         </div>
         {post.availability === 'Available' && (
-          <div className="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+          <div className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-green-500 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
             Available
           </div>
         )}
       </div>
 
       {/* Card Content */}
-      <div className="p-5 space-y-4">
-        <h2 className="text-xl font-bold text-gray-800 dark:text-white line-clamp-2">{post.title}</h2>
+      <div className="p-3 sm:p-5 space-y-3 sm:space-y-4">
+        <h2 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-white line-clamp-2">{post.title}</h2>
         
-        <div className="space-y-3">
+        <div className="space-y-2 sm:space-y-3">
           <div className="flex items-center text-gray-600 dark:text-gray-300">
             <FaMapMarkerAlt className="mr-2 text-primary-500" />
-            <span className="text-sm">{post.location}</span>
+            <span className="text-xs sm:text-sm">{post.location}</span>
           </div>
           
           <div className="flex items-center text-gray-600 dark:text-gray-300">
             <FaDollarSign className="mr-2 text-green-500" />
-            <span className="text-sm">${post.rentAmount?.toLocaleString() || post.rent}/month</span>
+            <span className="text-xs sm:text-sm">${post.rentAmount?.toLocaleString() || post.rent}/month</span>
           </div>
           
           <div className="flex items-center text-gray-600 dark:text-gray-300">

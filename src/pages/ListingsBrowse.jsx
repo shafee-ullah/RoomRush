@@ -119,7 +119,31 @@ const ListingsBrowse = () => {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        {/* Grid view for mobile, table view for larger screens */}
+        <div className="block md:hidden">
+          <div className="grid grid-cols-1 gap-4 p-4">
+            {listings.map((listing) => (
+              <div key={listing._id} className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 space-y-3">
+                <h3 className="font-semibold text-gray-900 dark:text-white">{listing.title}</h3>
+                <div className="text-sm text-gray-600 dark:text-gray-300 space-y-2">
+                  <p>📍 {listing.location}</p>
+                  <p>🏠 {listing.roomType}</p>
+                  <p>💰 ${listing.rentAmount}</p>
+                  <p>👤 {listing.userName}</p>
+                </div>
+                <button
+                  onClick={() => handleSeeMore(listing._id)}
+                  className="mt-2 w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-colors duration-200"
+                >
+                  View Details
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Table view for larger screens */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="min-w-full divide-y divide-secondary-200 dark:divide-secondary-700">
             <thead className="bg-secondary-100 dark:bg-secondary-800">
               <tr>

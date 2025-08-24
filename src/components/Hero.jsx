@@ -28,7 +28,7 @@ const Hero = () => {
   ];
 
   return (
-    <div className="relative w-full h-[600px] overflow-hidden rounded-xl">
+    <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] overflow-hidden rounded-xl">
       <div className="carousel w-full h-full">
         {carouselItems.map((item, index) => (
           <div key={item.id} id={`slide${item.id}`} className="carousel-item relative w-full h-full">
@@ -47,16 +47,16 @@ const Hero = () => {
               {item.icon}
               <h2 className="text-4xl md:text-5xl font-bold mb-4">{item.title}</h2>
               <p className="text-lg md:text-xl mb-8 max-w-2xl">{item.description}</p>
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   to="/browse-listings"
-                  className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+                  className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 text-center w-full sm:w-auto"
                 >
                   Browse Listings
                 </Link>
                 <Link
                   to="/find-roommate"
-                  className="bg-white hover:bg-gray-100 text-gray-800 px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+                  className="bg-white hover:bg-gray-100 text-gray-800 px-6 py-3 rounded-lg font-medium transition-colors duration-200 text-center w-full sm:w-auto"
                 >
                   Post a Listing
                 </Link>
