@@ -141,21 +141,21 @@ const Register = () => {
   };
 
   return (
-    <div className="flex w-11/12 mx-auto mt-10 flex-1">
+    <div className="flex w-11/12 mx-auto mt-10 flex-1 bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
       <Helmet>
         <title>Registration - RoomRush</title>
       </Helmet>
       <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div>
-            <h2 className="mt-8 text-2xl font-bold tracking-tight text-gray-900">
+            <h2 className="mt-8 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               Create your account
             </h2>
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
               Already registered?{" "}
               <NavLink
                 to="/auth/login"
-                className="font-semibold text-green-600 hover:text-green-700"
+                className="font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
               >
                 Sign in
               </NavLink>
@@ -211,7 +211,7 @@ const Register = () => {
               <div>
                 <label
                   htmlFor="name"
-                  className="block text-sm font-medium text-gray-900"
+                  className="block text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Name
                 </label>
@@ -221,7 +221,7 @@ const Register = () => {
                     name="name"
                     type="text"
                     required
-                    className="block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                    className="block w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-gray-900 dark:text-white bg-white dark:bg-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
                   />
                 </div>
               </div>
@@ -229,7 +229,7 @@ const Register = () => {
               <div>
                 <label
                   htmlFor="photoURL"
-                  className="block text-sm font-medium text-gray-900"
+                  className="block text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Profile Photo URL
                 </label>
@@ -239,7 +239,7 @@ const Register = () => {
                     name="photoURL"
                     type="url"
                     placeholder="https://example.com/your-photo.jpg"
-                    className="block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                    className="block w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-gray-900 dark:text-white bg-white dark:bg-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
                   />
                   <p className="mt-1 text-sm text-gray-500">
                     Enter a valid image URL for your profile photo
@@ -250,7 +250,7 @@ const Register = () => {
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium text-gray-900"
+                  className="block text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Email address
                 </label>
@@ -261,7 +261,7 @@ const Register = () => {
                     type="email"
                     required
                     autoComplete="email"
-                    className="block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                    className="block w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-gray-900 dark:text-white bg-white dark:bg-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
                   />
                 </div>
               </div>
@@ -269,7 +269,7 @@ const Register = () => {
               <div>
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium text-gray-900"
+                  className="block text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Password
                 </label>
@@ -280,10 +280,10 @@ const Register = () => {
                     type="password"
                     required
                     autoComplete="new-password"
-                    className="block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                    className="block w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-gray-900 dark:text-white bg-white dark:bg-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
                   />
                 </div>
-                <p className="mt-2 text-xs text-gray-500">
+                <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
                   Password must contain at least one uppercase letter, one
                   lowercase letter, and be at least 6 characters long.
                 </p>
@@ -292,7 +292,7 @@ const Register = () => {
               <div>
                 <button
                   type="submit"
-                  className="w-full flex justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[rgba(11,130,5,1)]"
+                  className="w-full flex justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
                 >
                   Register
                 </button>
@@ -302,17 +302,17 @@ const Register = () => {
             <div className="mt-10">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-300" />
+                  <div className="w-full border-t border-gray-300 dark:border-gray-600" />
                 </div>
-                <div className="relative flex justify-center text-sm font-medium text-gray-500">
-                  <span className="bg-white px-4">Or sign up with</span>
+                <div className="relative flex justify-center text-sm font-medium text-gray-500 dark:text-gray-400">
+                  <span className="bg-gray-50 dark:bg-gray-900 px-4">Or sign up with</span>
                 </div>
               </div>
 
               <div className="mt-6">
                 <button
                   onClick={handleGoogleSignIn}
-                  className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-gray-300 hover:bg-gray-50"
+                  className="flex w-full items-center justify-center gap-3 rounded-md bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm ring-1 ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
                 >
                   <FcGoogle className="h-5 w-5" />
                   <span>Google</span>
@@ -322,7 +322,7 @@ const Register = () => {
               <div className="mt-6 flex justify-center">
                 <NavLink
                   to="/"
-                  className="inline-flex items-center justify-center rounded-full bg-green-600 p-3 text-white shadow-sm hover:bg-green-700"
+                  className="inline-flex items-center justify-center rounded-full bg-blue-600 p-3 text-white shadow-sm hover:bg-blue-500"
                   aria-label="Back to Home"
                   title="Back to Home"
                 >
