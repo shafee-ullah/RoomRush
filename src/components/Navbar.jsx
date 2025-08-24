@@ -105,7 +105,7 @@ const Navbar = () => {
           {/* Logo and Brand */}
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0 flex items-center">
-              <img src={logoImg} alt="RoomRush Logo" className="hidden md:block h-8 w-8 mr-2" />
+              <img src={logoImg} alt="RoomRush Logo" className="h-8 w-8 mr-2" />
               <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                 RoomRush
               </span>
@@ -171,7 +171,7 @@ const Navbar = () => {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className=" rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 "
+              className="hidden md:block rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 "
               aria-label="Toggle theme"
             >
               {isDarkMode ? (
@@ -187,7 +187,7 @@ const Navbar = () => {
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none"
                 >
-                  {renderProfileImage()}
+                  <span className="hidden md:block">{renderProfileImage()}</span>
                   <span className="text-sm font-medium hidden md:block">
                     {user.displayName ||
                       user.email?.split("@")[0] ||
@@ -225,7 +225,7 @@ const Navbar = () => {
                 )}
               </div>
             ) : (
-              <div className="flex items-center space-x-4">
+              <div className="hidden md:flex items-center space-x-4">
                 <Link
                   to="/auth/login"
                   className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
@@ -312,24 +312,33 @@ const Navbar = () => {
               My Listings
               {!user && <FaInfoCircle className="ml-1 text-gray-400" />}
             </Link>
+            <button
+              onClick={toggleTheme}
+              className="w-full text-left px-3 py-2 rounded-md text-base font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+              aria-label="Toggle theme"
+            >
+              {isDarkMode ? (
+                <><FaSun className="mr-2" /> Light Mode</>
+              ) : (
+                <><FaMoon className="mr-2" /> Dark Mode</>
+              )}
+            </button>
             {user && (
               <>
                 <Link
                   to="/profile"
-                  className="block px-3 py-2 rounded-md text-base font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                  className="px-3 py-2 rounded-md text-base font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
                 >
-                  <FaUser className="mr-2" />
-                  Profile
+                  {renderProfileImage()}
+                  <span className="ml-2">Profile</span>
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                  className="w-full text-left px-3 py-2 rounded-md text-base font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
                 >
                   <FaSignOutAlt className="mr-2" />
                   Logout
                 </button>
-
-              
               </>
             )}
             {!user && (
