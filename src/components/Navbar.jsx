@@ -14,6 +14,7 @@ import {
   FaSun,
   FaMoon,
   FaInfoCircle,
+  FaInfoCircle as FaInfo,
 } from "react-icons/fa";
 import logoImg from "../assets/icons8-room-100 (1).png";
 
@@ -128,42 +129,33 @@ const Navbar = () => {
               <FaSearch className="mr-2" />
               Browse
             </Link>
-            <div className="relative group">
-              <Link
-                to="/find-roommate"
-                onClick={(e) => handleAuthRequired(e, "/find-roommate")}
-                className="px-3 py-2 rounded-md text-sm font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
-              >
-                <FaPlus className="mr-2" />
-                Add Listing
-                {!user && (
-                  <FaInfoCircle className="ml-1 text-gray-400 group-hover:text-blue-500" />
-                )}
-              </Link>
-              {!user && (
-                <div className="absolute hidden group-hover:block w-48 px-2 py-1 bg-gray-700 text-white text-xs rounded mt-1">
-                  Login required to add listings
-                </div>
-              )}
-            </div>
-            <div className="relative group">
-              <Link
-                to="/my-listings"
-                onClick={(e) => handleAuthRequired(e, "/my-listings")}
-                className="px-3 py-2 rounded-md text-sm font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
-              >
-                <FaList className="mr-2" />
-                My Listings
-                {!user && (
-                  <FaInfoCircle className="ml-1 text-gray-400 group-hover:text-blue-500" />
-                )}
-              </Link>
-              {!user && (
-                <div className="absolute hidden group-hover:block w-48 px-2 py-1 bg-gray-700 text-white text-xs rounded mt-1">
-                  Login required to view your listings
-                </div>
-              )}
-            </div>
+
+            {user && (
+              <>
+                <Link
+                  to="/find-roommate"
+                  className="px-3 py-2 rounded-md text-sm font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                >
+                  <FaPlus className="mr-2" />
+                  Add Listing
+                </Link>
+                <Link
+                  to="/my-listings"
+                  className="px-3 py-2 rounded-md text-sm font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                >
+                  <FaList className="mr-2" />
+                  My Listings
+                </Link>
+              </>
+            )}
+
+            <Link
+              to="/about"
+              className="px-3 py-2 rounded-md text-sm font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+            >
+              <FaInfoCircle className="mr-2" />
+              About
+            </Link>
           </div>
 
           {/* User Menu and Theme Toggle */}
@@ -187,7 +179,9 @@ const Navbar = () => {
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none"
                 >
-                  <span className="hidden md:block">{renderProfileImage()}</span>
+                  <span className="hidden md:block">
+                    {renderProfileImage()}
+                  </span>
                   <span className="text-sm font-medium hidden md:block">
                     {user.displayName ||
                       user.email?.split("@")[0] ||
@@ -279,7 +273,6 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-white dark:bg-gray-800">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-        
             <Link
               to="/"
               className="block px-3 py-2 rounded-md text-base font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
@@ -289,38 +282,52 @@ const Navbar = () => {
             </Link>
             <Link
               to="/browse-listings"
-              className="block px-3 py-2 rounded-md text-base font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+              className="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
             >
               <FaSearch className="mr-2" />
               Browse
             </Link>
-            <Link
-              to="/find-roommate"
-              onClick={(e) => handleAuthRequired(e, "/find-roommate")}
-              className="block px-3 py-2 rounded-md text-base font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+          
+            {user && (
+              <>
+                <Link
+                  to="/find-roommate"
+                  className="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                >
+                  <FaPlus className="mr-2" />
+                  Add Listing
+                </Link>
+                <Link
+                  to="/my-listings"
+                  className="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                >
+                  <FaList className="mr-2" />
+                  My Listings
+                </Link>
+              </>
+            )}
+
+              <Link
+              to="/about"
+              className="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
             >
-              <FaPlus className="mr-2" />
-              Add Listing
-              {!user && <FaInfoCircle className="ml-1 text-gray-400" />}
+              <FaInfoCircle className="mr-2" />
+              About
             </Link>
-            <Link
-              to="/my-listings"
-              onClick={(e) => handleAuthRequired(e, "/my-listings")}
-              className="block px-3 py-2 rounded-md text-base font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
-            >
-              <FaList className="mr-2" />
-              My Listings
-              {!user && <FaInfoCircle className="ml-1 text-gray-400" />}
-            </Link>
+            
             <button
               onClick={toggleTheme}
               className="w-full text-left px-3 py-2 rounded-md text-base font-medium flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
               aria-label="Toggle theme"
             >
               {isDarkMode ? (
-                <><FaSun className="mr-2" /> Light Mode</>
+                <>
+                  <FaSun className="mr-2" /> Light Mode
+                </>
               ) : (
-                <><FaMoon className="mr-2" /> Dark Mode</>
+                <>
+                  <FaMoon className="mr-2" /> Dark Mode
+                </>
               )}
             </button>
             {user && (

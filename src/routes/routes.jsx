@@ -17,6 +17,7 @@ import UpdatePost from "../pages/UpdatePost";
 import FindRoommate from "../pages/FindRoommate";
 import Profile from "../pages/Profile";
 import AuthProvider from "../provider/AuthProvider";
+import About from "../pages/About";
 
 const routes = [
   {
@@ -45,6 +46,11 @@ const routes = [
             <FindRoommate />
           </PrivateRoute>
         ),
+        fallbackElement: <Spinner />,
+      },
+      {
+        path: "/about",
+        element: <About />,
         fallbackElement: <Spinner />,
       },
       {
